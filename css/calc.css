@@ -1,0 +1,52 @@
+body	{
+	font-family: Digital;
+}
+
+.calc	{
+	padding-top: 10px;
+	background-color: #EEEEEE;
+	/*width: 50%;*/
+	text-align: center;
+	font-size: 40px;
+	border-radius: 20px;
+}
+
+#display	{
+	text-align: right;
+	padding: 15px;
+	font-size: 75px;
+	height: 125px;
+}
+
+.button	{
+	border: 2px solid black; /* Параметры границы */
+    padding: 7px;
+    margin: 5px;
+    border-radius: 20px;
+    background-color: #DDDDDD;
+}
+
+#ce{
+	background-color: rgb(255, 159, 25);
+}
+
+#ce:hover {
+	background-color: rgb(221, 141, 8);
+}
+
+#equal	{
+	background-color: rgba(97, 110, 255, 0.71);
+}
+
+#equal:hover	{
+	background-color: rgba(80, 95, 176, 0.81);
+}
+
+.button:hover	{
+	background: #CCCCCC;
+}
+
+@font-face {
+    font-family: Digital; /* Гарнитура шрифта */
+    src: url(../fonts/digital-7.ttf); /* Путь к файлу со шрифтом */
+   }
