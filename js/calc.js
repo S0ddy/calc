@@ -106,7 +106,7 @@ $(document).ready(function()  {
         }
 
         // plus and minus
-        while (display.innerHTML.search(/\+/) !== -1 || display.innerHTML.search(/-/) !== -1) {
+        while (display.innerHTML.search(/\w\+\w/) !== -1 || display.innerHTML.search(/\w-\w/) !== -1) {
             plusAndMinus();
         }
 
@@ -135,8 +135,8 @@ $(document).ready(function()  {
     }
 
     function pi()   {
-        var out = display.innerHTML;
-        var numPi = 3.1415926;
+        let out = display.innerHTML;
+        let numPi = 3.1415926;
         while (display.innerHTML.search( /π/ ) !== -1)    {
             display.innerHTML = out.replace( /π/, numPi );
         }
@@ -233,17 +233,20 @@ $(document).ready(function()  {
             } else if (out.search( /\(/ ) === -1 && out.search( /\)/ ) !== -1)    {
                 display.innerHTML = "open bracket";
                 setTimeout(returnOut, 2000);
-            } else if (out.search( /\(/ ) > out.search( /\)/ )) {
-                display.innerHTML = "bracket error";
-                setTimeout(returnOut, 2000);
-            } else if (out.search( /\(/ ) < out.search( /\)/ )) {
-                let start = out.search(/\(/);
-                let end = out.search(/\)/);
-                display.innerHTML = out.substring(start + 1, end);
+            } else if (out.match(/\(/ig).length === out.match(/\)/ig).length) {
+                let skobka = out.match( /\(([^()]+)\)/ );
+                display.innerHTML = skobka[1];
                 let fragment = equal();
-                let errased = vhod.substring(start, end + 1);
-                display.innerHTML = vhod.replace(errased, fragment);
+                display.innerHTML = vhod.replace(skobka[0], fragment);
                 vhod = display.innerHTML;
+                
+                // display.innerHTML = out.substring(start + 1, end);
+                // let fragment = equal();
+                // let errased = vhod.substring(start, end + 1);
+                // display.innerHTML = vhod.replace(errased, fragment);
+                // vhod = display.innerHTML;
+            }   else    {
+                display.innerHTML = "brackets error";
             }
 
     }
