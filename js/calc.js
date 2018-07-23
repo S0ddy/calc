@@ -106,7 +106,7 @@ $(document).ready(function()  {
         }
 
         // plus and minus
-        while (display.innerHTML.search(/\w\+\w/) !== -1 || display.innerHTML.search(/\w-\w/) !== -1) {
+        while (display.innerHTML.search(/-*\w\+-*\w/) !== -1 || display.innerHTML.search(/-*\w--*\w/) !== -1) {
             plusAndMinus();
         }
 
@@ -144,83 +144,95 @@ $(document).ready(function()  {
 
     function plusAndMinus() {
         let out = display.innerHTML;
-        let firstPlus = display.innerHTML.match( /[^×\-+÷]+(?=\+)/ );
-        if (display.innerHTML.search( /[^×\-+÷]+(?=\+)/ ) !== -1) {
+        let firstPlus = display.innerHTML.match( /-*[^×\-+÷]+(?=\+)/ );
+        if (display.innerHTML.search( /-*[^×\-+÷]+(?=\+)/ ) !== -1) {
             var firstIndexPlus = firstPlus.index;
         }   else    {
             var firstIndexPlus = -1;
         }
-        let firstMinus = display.innerHTML.match( /[^×\-+÷]+(?=-)/ );
-        if (display.innerHTML.search( /[^×\-+÷]+(?=-)/ ) !== -1) {
+        let firstMinus = display.innerHTML.match( /-*[^×\-+÷]+(?=-)/ );
+        if (display.innerHTML.search( /-*[^×\-+÷]+(?=-)/ ) !== -1) {
             var firstIndexMinus = firstMinus.index;
         }   else    {
             var firstIndexMinus = -1;
         }
         if (firstIndexPlus !== -1 &&  firstIndexMinus === -1) {
             firstPlus = +firstPlus;
-            let secondPlus = display.innerHTML.match(/\+([^×\-+÷]+)/);
+            let secondPlus = display.innerHTML.match(/\+(-*[^×\-+÷]+)/);
             secondPlus = +secondPlus.slice(1);
             let summ = firstPlus + secondPlus;
-            display.innerHTML = out.replace(/[^×\-+÷]+\+[^×\-+÷]+/, summ);
+            display.innerHTML = out.replace(/-*[^×\-+÷]+\+-*[^×\-+÷]+/, summ);
         }   else if (firstIndexPlus === -1 &&  firstIndexMinus !== -1) {
             firstMinus = +firstMinus;
-            let secondMinus = display.innerHTML.match(/-([^×\-+÷]+)/);
+            let secondMinus = display.innerHTML.match(/-(-*[^×\-+÷]+)/);
             secondMinus = +secondMinus.slice(1);
             let difference = firstMinus - secondMinus;
-            display.innerHTML = out.replace(/[^×\-+÷]+-[^×\-+÷]+/, difference);
+            display.innerHTML = out.replace(/-*[^×\-+÷]+--*[^×\-+÷]+/, difference);
         } else if (firstIndexPlus < firstIndexMinus)    {
             firstPlus = +firstPlus;
-            let secondPlus = display.innerHTML.match(/\+([^×\-+÷]+)/);
+            let secondPlus = display.innerHTML.match(/\+(-*[^×\-+÷]+)/);
             secondPlus = +secondPlus.slice(1);
             let summ = firstPlus + secondPlus;
-            display.innerHTML = out.replace(/[^×\-+÷]+\+[^×\-+÷]+/, summ);
+            display.innerHTML = out.replace(/-*[^×\-+÷]+\+-*[^×\-+÷]+/, summ);
         } else if (firstIndexPlus> firstIndexMinus) {
             firstMinus = +firstMinus;
-            let secondMinus = display.innerHTML.match(/-([^×\-+÷]+)/);
+            let secondMinus = display.innerHTML.match(/-(-*[^×\-+÷]+)/);
             secondMinus = +secondMinus.slice(1);
             let difference = firstMinus - secondMinus;
-            display.innerHTML = out.replace(/[^×\-+÷]+-[^×\-+÷]+/, difference);
+            display.innerHTML = out.replace(/-*[^×\-+÷]+--*[^×\-+÷]+/, difference);
         }
     }
 
     function multiplyAndDivision() {
         let out = display.innerHTML;
-        let firstMultiply = display.innerHTML.match( /[^×\-+÷]+(?=×)/ );
-        if (display.innerHTML.search( /[^×\-+÷]+(?=×)/ ) !== -1) {
+        let firstMultiply = display.innerHTML.match( /-?[^×\-+÷]+(?=×)/ );
+        if (display.innerHTML.search( /-?[^×\-+÷]+(?=×)/ ) !== -1) {
             var firstIndexMultiply = firstMultiply.index;
         }   else    {
             var firstIndexMultiply = -1;
         }
-        let firstDivision = display.innerHTML.match( /[^×\-+÷]+(?=÷)/ );
-        if (display.innerHTML.search( /[^×\-+÷]+(?=÷)/ ) !== -1) {
+        let firstDivision = display.innerHTML.match( /-?[^×\-+÷]+(?=÷)/ );
+        if (display.innerHTML.search( /-?[^×\-+÷]+(?=÷)/ ) !== -1) {
             var firstIndexDivision = firstDivision.index;
         }   else    {
             var firstIndexDivision = -1;
         }
         if (firstIndexMultiply !== -1 &&  firstIndexDivision === -1) {
             firstMultiply = +firstMultiply;
-            let secondMultiply = display.innerHTML.match(/×([^×\-+÷]+)/);
+            let secondMultiply = display.innerHTML.match(/×(-?[^×\-+÷]+)/);
             secondMultiply = +secondMultiply.slice(1);
             let multip = firstMultiply * secondMultiply;
-            display.innerHTML = out.replace(/[^×\-+÷]+×[^×\-+÷]+/, multip);
+            if (multip >= 0)  {
+                multip = '+' + multip;
+            }
+            display.innerHTML = out.replace(/-?[^×\-+÷]+×-?[^×\-+÷]+/, multip);
         }   else if (firstIndexMultiply === -1 &&  firstIndexDivision !== -1) {
             firstDivision = +firstDivision;
-            let secondDivision = display.innerHTML.match(/÷([^×\-+÷]+)/);
+            let secondDivision = display.innerHTML.match(/÷(-?[^×\-+÷]+)/);
             secondDivision = +secondDivision.slice(1);
             let divis = firstDivision / secondDivision;
-            display.innerHTML = out.replace(/[^×\-+÷]+÷[^×\-+÷]+/, divis);
+            if (divis >= 0)  {
+                divis = '+' + divis;
+            }
+            display.innerHTML = out.replace(/-?[^×\-+÷]+÷-?[^×\-+÷]+/, divis);
         } else if (firstIndexMultiply < firstIndexDivision)    {
             firstMultiply = +firstMultiply;
-            let secondMultiply = display.innerHTML.match(/×([^×\-+÷]+)/);
+            let secondMultiply = display.innerHTML.match(/×(-?[^×\-+÷]+)/);
             secondMultiply = +secondMultiply.slice(1);
             let multip = firstMultiply * secondMultiply;
-            display.innerHTML = out.replace(/[^×\-+÷]+×[^×\-+÷]+/, multip);
+            if (multip >= 0)  {
+                multip = '+' + multip;
+            }
+            display.innerHTML = out.replace(/-?[^×\-+÷]+×-?[^×\-+÷]+/, multip);
         } else if (firstIndexMultiply > firstIndexDivision) {
             firstDivision = +firstDivision;
-            let secondDivision = display.innerHTML.match(/÷([^×\-+÷]+)/);
+            let secondDivision = display.innerHTML.match(/÷(-?[^×\-+÷]+)/);
             secondDivision = +secondDivision.slice(1);
             let divis = firstDivision / secondDivision;
-            display.innerHTML = out.replace(/[^×\-+÷]+÷[^×\-+÷]+/, divis);
+            if (divis >= 0)  {
+                divis = '+' + divis;
+            }
+            display.innerHTML = out.replace(/-?[^×\-+÷]+÷-?[^×\-+÷]+/, divis);
         }
     }
 
