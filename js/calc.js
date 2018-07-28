@@ -164,9 +164,8 @@ $(document).ready(function()  {
             display.innerHTML = out.replace(/-*[^×\-+÷]+\+-*[^×\-+÷]+/, summ);
         }   else if (firstIndexPlus === -1 &&  firstIndexMinus !== -1) {
             firstMinus = +firstMinus;
-            let secondMinus = display.innerHTML.match(/-(-*[^×\-+÷]+)/);
-            secondMinus = +secondMinus.slice(1);
-            let difference = firstMinus - secondMinus;
+            let secondMinus = display.innerHTML.match(/-*[^×\-+÷]+(?=-)-([^×\-+÷]+)/);
+            let difference = firstMinus - secondMinus[1];
             display.innerHTML = out.replace(/-*[^×\-+÷]+--*[^×\-+÷]+/, difference);
         } else if (firstIndexPlus < firstIndexMinus)    {
             firstPlus = +firstPlus;
@@ -176,16 +175,15 @@ $(document).ready(function()  {
             display.innerHTML = out.replace(/-*[^×\-+÷]+\+-*[^×\-+÷]+/, summ);
         } else if (firstIndexPlus> firstIndexMinus) {
             firstMinus = +firstMinus;
-            let secondMinus = display.innerHTML.match(/-(-*[^×\-+÷]+)/);
-            secondMinus = +secondMinus.slice(1);
-            let difference = firstMinus - secondMinus;
+            let secondMinus = display.innerHTML.match(/-*[^×\-+÷]+(?=-)-([^×\-+÷]+)/);
+            let difference = firstMinus - secondMinus[1];
             display.innerHTML = out.replace(/-*[^×\-+÷]+--*[^×\-+÷]+/, difference);
         }
     }
 
     function multiplyAndDivision() {
         let out = display.innerHTML;
-        let firstMultiply = display.innerHTML.match( /-?[^×\-+÷]+(?=×)/ );
+        let firstMultiply = display.innerHTML.match( /-*[^×\-+÷]+(?=×)/ );
         if (display.innerHTML.search( /-?[^×\-+÷]+(?=×)/ ) !== -1) {
             var firstIndexMultiply = firstMultiply.index;
         }   else    {
@@ -205,7 +203,7 @@ $(document).ready(function()  {
             if (multip >= 0)  {
                 multip = '+' + multip;
             }
-            display.innerHTML = out.replace(/-?[^×\-+÷]+×-?[^×\-+÷]+/, multip);
+            display.innerHTML = out.replace(/-?\+?[^×\-+÷]+×-?[^×\-+÷]+/, multip);
         }   else if (firstIndexMultiply === -1 &&  firstIndexDivision !== -1) {
             firstDivision = +firstDivision;
             let secondDivision = display.innerHTML.match(/÷(-?[^×\-+÷]+)/);
@@ -214,7 +212,7 @@ $(document).ready(function()  {
             if (divis >= 0)  {
                 divis = '+' + divis;
             }
-            display.innerHTML = out.replace(/-?[^×\-+÷]+÷-?[^×\-+÷]+/, divis);
+            display.innerHTML = out.replace(/-?\+?[^×\-+÷]+÷-?[^×\-+÷]+/, divis);
         } else if (firstIndexMultiply < firstIndexDivision)    {
             firstMultiply = +firstMultiply;
             let secondMultiply = display.innerHTML.match(/×(-?[^×\-+÷]+)/);
@@ -223,7 +221,7 @@ $(document).ready(function()  {
             if (multip >= 0)  {
                 multip = '+' + multip;
             }
-            display.innerHTML = out.replace(/-?[^×\-+÷]+×-?[^×\-+÷]+/, multip);
+            display.innerHTML = out.replace(/-?\+?[^×\-+÷]+×-?[^×\-+÷]+/, multip);
         } else if (firstIndexMultiply > firstIndexDivision) {
             firstDivision = +firstDivision;
             let secondDivision = display.innerHTML.match(/÷(-?[^×\-+÷]+)/);
@@ -232,7 +230,7 @@ $(document).ready(function()  {
             if (divis >= 0)  {
                 divis = '+' + divis;
             }
-            display.innerHTML = out.replace(/-?[^×\-+÷]+÷-?[^×\-+÷]+/, divis);
+            display.innerHTML = out.replace(/-?\+?[^×\-+÷]+÷-?[^×\-+÷]+/, divis);
         }
     }
 
