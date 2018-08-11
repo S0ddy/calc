@@ -136,7 +136,7 @@ $(document).ready(function()  {
 
     function pi()   {
         let out = display.innerHTML;
-        let numPi = 3.1415926;
+        let numPi = Math.PI;
         while (display.innerHTML.search( /π/ ) !== -1)    {
             display.innerHTML = out.replace( /π/, numPi );
         }
@@ -158,8 +158,8 @@ $(document).ready(function()  {
         }
         if (firstIndexPlus !== -1 &&  firstIndexMinus === -1) {
             firstPlus = +firstPlus;
-            let secondPlus = display.innerHTML.match(/\+(-*[^×\-+÷]+)/);
-            secondPlus = +secondPlus.slice(1);
+            let secondPlus = display.innerHTML.match(/\+*(-*[^×\-+÷]+)*\+(-*[^×\-+÷]+)/);
+            secondPlus = +secondPlus.slice(secondPlus.length-1);
             let summ = firstPlus + secondPlus;
             display.innerHTML = out.replace(/-*[^×\-+÷]+\+-*[^×\-+÷]+/, summ);
         }   else if (firstIndexPlus === -1 &&  firstIndexMinus !== -1) {
